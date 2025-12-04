@@ -47,6 +47,8 @@ INSERT INTO projects (project_id, project_name, dept_id, budget) VALUES
 SELECT e.emp_name, d.dept_name
 FROM employees e CROSS JOIN departments d;
 
+SELECT employees, departments
+FROM employees INNER JOIN departments ON TRUE;
 -- 2.2 Alternative syntax
 SELECT e.emp_name, d.dept_name
 FROM employees e, departments d;
@@ -83,6 +85,12 @@ INNER JOIN projects p ON d.dept_id = p.dept_id;
 SELECT e.emp_name, e.dept_id AS emp_dept, d.dept_id AS dept_dept, d.dept_name
 FROM employees e
 LEFT JOIN departments d ON e.dept_id = d.dept_id;
+SELECT e.emp_name, e.dept_id AS emp_dept, d.dept_id AS dept_dept, d.dept_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.dept_id;
+SELECT e.emp_name, e.dept_id AS emp_dept, d.dept_id AS dept_dept, d.dept_name
+FROM employees e
+FULL JOIN departments d ON e.dept_id = d.dept_id;
 
 -- 4.2 LEFT JOIN with USING
 SELECT emp_name, dept_name
@@ -106,6 +114,10 @@ ORDER BY employee_count DESC;
 SELECT e.emp_name, d.dept_name
 FROM employees e
 RIGHT JOIN departments d ON e.dept_id = d.dept_id;
+
+SELECT e.emp_name, d.dept_name
+FROM employees e
+FUll JOIN departments d ON e.dept_id = d.dept_id;
 
 -- 5.2 Same using LEFT JOIN
 SELECT e.emp_name, d.dept_name

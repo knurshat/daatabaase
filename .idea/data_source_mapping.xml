@@ -2,8 +2,11 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/2dd9d24d-5a8a-4c3c-b4d9-1130d863512c/console.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/2dd9d24d-5a8a-4c3c-b4d9-1130d863512c/lab7.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
     <file url="file://$PROJECT_DIR$/lab3_advanced_dml.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
     <file url="file://$PROJECT_DIR$/lab4.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
+    <file url="file://$PROJECT_DIR$/lab6.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
+    <file url="file://$PROJECT_DIR$/lab7.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
     <file url="file://$PROJECT_DIR$/lad5.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
     <file url="file://$PROJECT_DIR$/practice.sql" value="2dd9d24d-5a8a-4c3c-b4d9-1130d863512c" />
   </component>

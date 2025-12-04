@@ -2,7 +2,9 @@
 -- SQL VIEWS AND ROLES - COMPLETE LAB GUIDE
 -- Laboratory Work 7
 -- ========================================
-
+DROP TABLE employees CASCADE;
+DROP TABLE departments CASCADE;
+DROP TABLE projects CASCADE;
 -- ==================== PART 1: DATABASE SETUP ====================
 -- (Use tables from Lab 6 - employees, departments, projects)
 
@@ -449,3 +451,53 @@ JOIN pg_auth_members am ON r.oid = am.roleid
 JOIN pg_roles m ON am.member = m.oid
 WHERE r.rolname NOT LIKE 'pg_%'
 ORDER BY r.rolname, m.rolname;
+
+CREATE OR REPLACE FUNCTION calculate_room_rate(
+    base_price NUMERIC,
+    check_in_date DATE,
+    num_nights INTEGER,
+    season_type VARCHAR DEFAULT 'regular'
+) RETURNS NUMERIC AS $$
+DECLARE
+    season_multiplier NUMERIC := CASE season_type
+                                    WHEN 'high' THEN 1.5
+                                    WHEN 'low'  THEN 0.75
+                                    ELSE 1.0
+                                END;
+    weekend_nights INTEGER;
+BEGIN
+    -- считаем количество пятниц и суббот за период
+    SELECT COUNT(*)
+    INTO weekend_nights
+    FROM generate_series(check_in_date, check_in_date + num_nights - 1, INTERVAL '1 day') AS d
+    WHERE EXTRACT(DOW FROM d) IN (5,6);
+
+    RETURN base_price * num_nights * season_multiplier * (1 + 0.2 * weekend_nights / num_nights);
+END;
+$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION calculate_loyalty_discount(
+    total_amount NUMERIC,
+    loyalty_status VARCHAR,
+    total_bookings INTEGER
+) RETURNS NUMERIC AS $$
+DECLARE
+    base_discount NUMERIC := 0;
+    booking_bonus NUMERIC := 0;
+    discount NUMERIC := 0;
+BEGIN
+    -- Определяем базовую скидку по статусу
+    CASE LOWER(loyalty_status)
+        WHEN 'bronze' THEN base_discount := 5;
+        WHEN 'silver' THEN base_discount := 10;
+        WHEN 'gold' THEN base_discount := 15;
+        WHEN 'platinum' THEN base_discount := 20;
+    END CASE;
+
+    -- Дополнительная скидка за количество бронирований
+    booking_bonus := LEAST(FLOOR(total_bookings / 5), 10);
+
+    discount := total_amount * (base_discount + booking_bonus) / 100;
+    RETURN discount;
+END;
+$$ LANGUAGE plpgsql;
+
